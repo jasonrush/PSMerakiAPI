@@ -25,40 +25,40 @@ function Get-Organization {
     #>
     param (
         [CmdletBinding(
-        HelpURI='https://github.com/jasonrush/PSMerakiAPI/blob/master/Docs/Get-Organization.md',
-        DefaultParameterSetName='ID',
-        SupportsPaging=$false,
-        PositionalBinding=$false)]
+            HelpURI = 'https://github.com/jasonrush/PSMerakiAPI/blob/master/Docs/Get-Organization.md',
+            DefaultParameterSetName = 'ID',
+            SupportsPaging = $false,
+            PositionalBinding = $false)]
 
-        [Parameter(ParameterSetName='ID')]
+        [Parameter(ParameterSetName = 'ID')]
         [ValidateNotNullOrEmpty()]
         [String] $ID,
 
-        [Parameter(Mandatory=$true, ParameterSetName='Name')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Name')]
         [ValidateNotNullOrEmpty()]
         [String] $Name
     )
 
     $Endpoint = 'organizations'
 
-    if( ('ID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $ID) ){
+    if ( ('ID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $ID) ) {
         Write-Verbose "Filtering by ID: $ID"
         $Endpoint += "/$ID"
     }
 
     try {
-        $organizations = Invoke-APIRestMethod -Endpoint $Endpoint    
+        $organizations = Invoke-APIRestMethod -Endpoint $Endpoint
     }
     catch {
         # If a 404-not-found error is thrown, and we specified an ID, return nothing.
-        if( 'The remote server returned an error: (404) Not Found.' -eq $_.Exception.Message ){
-            if( ('ID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $ID) ){
+        if ( 'The remote server returned an error: (404) Not Found.' -eq $_.Exception.Message ) {
+            if ( ('ID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $ID) ) {
                 $organizations = $null
             }
         }
     }
 
-    if( 'Name' -eq $PSCmdlet.ParameterSetName ){
+    if ( 'Name' -eq $PSCmdlet.ParameterSetName ) {
         Write-Verbose "Filtering by name: $Name"
         $organizations = $organizations | Where-Object { $_.name -eq $Name } | Select-Object -First 1
     }

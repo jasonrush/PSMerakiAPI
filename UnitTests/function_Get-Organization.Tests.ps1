@@ -14,10 +14,10 @@ Describe 'Get-Organization Tests' {
             Get-PSMAPIOrganization -Name 'DevNet Sandbox' | Should -HaveCount 1
         }
         It 'Throws an exception when a blank ID is specified' {
-            {Get-PSMAPIOrganization -ID ''} | Should -Throw
+            { Get-PSMAPIOrganization -ID '' } | Should -Throw
         }
         It 'Throws an exception when a blank Name is specified' {
-            {Get-PSMAPIOrganization -Name ''} | Should -Throw
+            { Get-PSMAPIOrganization -Name '' } | Should -Throw
         }
         It 'Returns no results when a gibberish ID is specified' {
             Get-PSMAPIOrganization -ID 'qwertyqwertyqwerty' | Should -BeNullOrEmpty
@@ -33,7 +33,7 @@ Describe 'Get-Organization Tests' {
         # Load an array with the properties we need to look for
         $properties = ('id', 'name', 'url')
 
-        foreach ($property in $properties){
+        foreach ($property in $properties) {
             It "Organization objects should have a property of $property" {
                 [bool]($orgObject.PSObject.Properties.Name -match $property) | Should -BeTrue
             }
@@ -42,8 +42,8 @@ Describe 'Get-Organization Tests' {
         It "Organization objects should not have a gibberish property" {
             [bool]($orgObject.PSObject.Properties.Name -match 'qwertyqwertyqwerty') | Should -not -BeTrue
         }
-} # Context correct properties
-        
+    } # Context correct properties
+
     <# This seems to only work for Pester v4+?
     Context "Verify parameters" {
         It 'Has parameter [string]ID' {

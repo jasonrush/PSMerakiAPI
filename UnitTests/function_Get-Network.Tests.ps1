@@ -5,7 +5,7 @@ $env:MerakiAPIKey = '093b24e85df15a3e66f1fc359f4c48493eaa1b73' # Demo Read-only 
 Describe 'Get-Network Tests' {
     Context 'Verify proper result counts' {
         It 'Throws an exception with no parameters' {
-            {Get-PSMAPINetwork} | Should -Throw
+            { Get-PSMAPINetwork } | Should -Throw
         }
         It 'Returns one or more results when OrganizationID is specified' {
             (Get-PSMAPINetwork -OrganizationID 549236).count | Should -BeGreaterThan 0
@@ -17,10 +17,10 @@ Describe 'Get-Network Tests' {
             Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Always On Read Only' | Should -HaveCount 1
         }
         It 'Throws an exception when a blank NetworkID is specified' {
-            {Get-PSMAPINetwork -NetworkID ''} | Should -Throw
+            { Get-PSMAPINetwork -NetworkID '' } | Should -Throw
         }
         It 'Throws an exception when a blank OrganizationID is specified' {
-            {Get-PSMAPINetwork -OrganizationID ''} | Should -Throw
+            { Get-PSMAPINetwork -OrganizationID '' } | Should -Throw
         }
         It 'Returns no results when a gibberish NetworkID is specified' {
             Get-PSMAPINetwork -NetworkID 'qwertyqwertyqwerty' | Should -BeNullOrEmpty

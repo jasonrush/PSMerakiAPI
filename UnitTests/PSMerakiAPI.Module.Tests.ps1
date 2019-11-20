@@ -21,8 +21,7 @@ Describe 'Module' {
         }
 
         It "$module is valid PowerShell code" {
-            $psFile = Get-Content -Path "$root\$ModuleName.psm1" `
-                                  -ErrorAction Stop
+            $psFile = Get-Content -Path "$root\$ModuleName.psm1" -ErrorAction Stop
             $errors = $null
             $null = [System.Management.Automation.PSParser]::Tokenize($psFile, [ref]$errors)
             $errors.Count | Should -Be 0
@@ -34,7 +33,7 @@ Describe 'Module' {
         'Get-Network'
     )
 
-    foreach ($function in $functions){
+    foreach ($function in $functions) {
 
         Context "Test Function $function" {
 
@@ -74,8 +73,7 @@ Describe 'Module' {
             }
 
             It "$function.ps1 is valid PowerShell code" {
-                $psFile = Get-Content -Path "$root\Public\$function.ps1" `
-                                      -ErrorAction Stop
+                $psFile = Get-Content -Path "$root\Public\$function.ps1" -ErrorAction Stop
                 $errors = $null
                 $null = [System.Management.Automation.PSParser]::Tokenize($psFile, [ref]$errors)
                 $errors.Count | Should -Be 0

@@ -24,47 +24,47 @@ function Get-Network {
     #>
     param (
         [CmdletBinding(
-        HelpURI='https://github.com/jasonrush/PSMerakiAPI/blob/master/Docs/Get-Network.md',
-        SupportsPaging=$false,
-        PositionalBinding=$false)]
+            HelpURI = 'https://github.com/jasonrush/PSMerakiAPI/blob/master/Docs/Get-Network.md',
+            SupportsPaging = $false,
+            PositionalBinding = $false)]
 
-        [Parameter(Mandatory=$true, ParameterSetName='NetworkID')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'NetworkID')]
         [ValidateNotNullOrEmpty()]
         [String] $NetworkID,
 
-        [Parameter(Mandatory=$true, ParameterSetName='OrganizationID')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'OrganizationID')]
         [ValidateNotNullOrEmpty()]
         [String] $OrganizationID,
 
-        [Parameter(ParameterSetName='OrganizationID')]
+        [Parameter(ParameterSetName = 'OrganizationID')]
         [ValidateNotNullOrEmpty()]
         [String] $Name = ''
     )
 
-    if( ('NetworkID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $NetworkID) ){
+    if ( ('NetworkID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $NetworkID) ) {
         Write-Verbose "Filtering by Network ID: $ID"
         $Endpoint = "networks/$NetworkID"
     }
 
-    if( ('OrganizationID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $OrganizationID) ){
+    if ( ('OrganizationID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $OrganizationID) ) {
         Write-Verbose "Filtering by Organization ID: $ID"
         $Endpoint = "organizations/$OrganizationID/networks"
     }
 
     try {
-        $networks = Invoke-APIRestMethod -Endpoint $Endpoint    
+        $networks = Invoke-APIRestMethod -Endpoint $Endpoint
     }
     catch {
         # If a 404-not-found error is thrown, and we specified a NetworkID, return nothing.
-        if( 'The remote server returned an error: (404) Not Found.' -eq $_.Exception.Message ){
-            if( ('NetworkID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $ID) ){
+        if ( 'The remote server returned an error: (404) Not Found.' -eq $_.Exception.Message ) {
+            if ( ('NetworkID' -eq $PSCmdlet.ParameterSetName) -and ( '' -ne $ID) ) {
                 $networks = $null
                 Write-Verbose "Network was not found."
             }
         }
     }
 
-    if( '' -ne $Name ){
+    if ( '' -ne $Name ) {
         Write-Verbose "Filtering by name: $Name"
         $networks = $networks | Where-Object { $_.name -eq $Name } | Select-Object -First 1
     }

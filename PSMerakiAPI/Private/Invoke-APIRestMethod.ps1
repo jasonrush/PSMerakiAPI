@@ -6,12 +6,12 @@ The rate limiting technique is based off of the token bucket model.
 An error with a 429 status code will be returned when the rate limit has been exceeded.
 Expect to backoff for 1 - 2 seconds if the limit has been exceeded. You may have to wait potentially longer if a large number of requests were made within this timeframe.
 Rate Limit Error Handling
-​If the defined rate limit is exceeded, Dashboard API will reply with the 429 (rate limit exceeded) error code. This response will also return a Retry-After header indicating how long the client should wait before making a follow-up request.​
+If the defined rate limit is exceeded, Dashboard API will reply with the 429 (rate limit exceeded) error code. This response will also return a Retry-After header indicating how long the client should wait before making a follow-up request.
 
-The Retry-After key contains the number of seconds the client should delay.​
-Expect to backoff for 1 - 2 seconds if the limit has been exceeded. You may have to wait potentially longer if a large number of requests were made within this timeframe.​A simple example which minimizes rate limit errors:​
+The Retry-After key contains the number of seconds the client should delay.
+Expect to backoff for 1 - 2 seconds if the limit has been exceeded. You may have to wait potentially longer if a large number of requests were made within this timeframe. A simple example which minimizes rate limit errors:
 response = requests.request("GET", url, headers=headers)
-​
+
 if response.status_code == 200:
 	# Success logic
 elif response.status_code == 429:
@@ -47,16 +47,16 @@ function Invoke-APIRestMethod {
     #>
     param (
         [CmdletBinding(
-        HelpURI='https://github.com/jasonrush/PSMerakiAPI/blob/master/Docs/Invoke-APIRestMethod.md',
-        SupportsPaging=$false,
-        PositionalBinding=$true)]
+            HelpURI = 'https://github.com/jasonrush/PSMerakiAPI/blob/master/Docs/Invoke-APIRestMethod.md',
+            SupportsPaging = $false,
+            PositionalBinding = $true)]
 
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [String] $Endpoint,
 
         [Parameter()]
-        [ValidateSet('GET','POST','PUT','DELETE')]
+        [ValidateSet('GET', 'POST', 'PUT', 'DELETE')]
         [String] $Method = "GET",
 
         [Parameter()]
@@ -71,25 +71,25 @@ function Invoke-APIRestMethod {
         [String] $BaseURI = ''
         #>
     )
-    
+
     # If no API key specified, try pulling from Environment variable.
-    if( ('' -eq $ApiKey) -and ( Test-Path env:MerakiApiKey) ){
+    if ( ('' -eq $ApiKey) -and ( Test-Path env:MerakiApiKey) ) {
         Write-Verbose "Importing API key from environmental variable."
         $ApiKey = $env:MerakiApiKey
     }
 
     # If BaseURI was not specified, try pulling from Environment variable.
-    if( ('' -eq $BaseURI) -and ( Test-Path env:MerakiApiBaseURI) ){
+    if ( ('' -eq $BaseURI) -and ( Test-Path env:MerakiApiBaseURI) ) {
         Write-Verbose "Importing Base URI from environmental variable."
         $BaseURI = $env:MerakiApiBaseURI
     }
 
     # If there was no base URI in the Environment variable, try figuring out automagically.
-    if( ('' -eq $BaseURI) ){
+    if ( ('' -eq $BaseURI) ) {
         Write-Verbose "Importing Base URI from Meraki API call (via Invoke-WebRequest)."
         $organizationsURI = 'https://api.meraki.com/api/v0/organizations'
         try {
-            $webRequest = Invoke-WebRequest -Uri $organizationsURI -Headers @{"X-Cisco-Meraki-API-Key" = $ApiKey}
+            $webRequest = Invoke-WebRequest -Uri $organizationsURI -Headers @{ "X-Cisco-Meraki-API-Key" = $ApiKey }
             $BaseURI = ($webRequest.BaseResponse.ResponseUri.AbsoluteUri).Replace( '/organizations', '' )
             $env:MerakiApiBaseURI = $BaseURI
             Write-Verbose "New base URI: $BaseURI"
@@ -101,13 +101,13 @@ function Invoke-APIRestMethod {
     }
 
     # If we still haven't figured out a better base URI, use the default.
-    if( ('' -eq $BaseURI) ){
+    if ( ('' -eq $BaseURI) ) {
         $BaseURI = 'https://api.meraki.com/api/v0'
     }
 
     # Create headers array to specify Meraki API key
     $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-    if( $null -eq $ApiKey ){
+    if ( $null -eq $ApiKey ) {
         # ERROR
     }
 
@@ -120,7 +120,7 @@ function Invoke-APIRestMethod {
     $headers.Add( "X-Cisco-Meraki-API-Key", $ApiKey )
 
     Write-Verbose "Headers:"
-    foreach( $key in $headers.Keys ){
+    foreach ( $key in $headers.Keys ) {
         Write-Verbose "`t`t$($key): $($headers[$key])"
     }
 
@@ -138,7 +138,7 @@ function Invoke-APIRestMethod {
         $response = Invoke-RestMethod $FullURI -Method $Method -Headers $Headers -Body $Body -ErrorAction Continue
     }
     catch {
-        switch( $_.Exception.Message ){
+        switch ( $_.Exception.Message ) {
             'The remote server returned an error: (404) Not Found.' {
                 Write-Verbose "A 404-not-found error was returned."
                 throw 'The remote server returned an error: (404) Not Found. Verify your endpoint/URL and API key.'
