@@ -135,7 +135,7 @@ function Invoke-APIRestMethod {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
     try {
-        $response = Invoke-RestMethod $FullURI -Method $Method -Headers $Headers -Body $Body -ErrorAction Continue
+        $response = Invoke-RestMethod $FullURI -Method $Method -Headers $Headers -Body $Body -ErrorAction Stop
     }
     catch {
         switch ( $_.Exception.Message ) {
