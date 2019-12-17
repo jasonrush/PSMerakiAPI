@@ -150,5 +150,5 @@ function Invoke-APIRestMethod {
         }
     }
 
-    return $response
+    $response
 }
