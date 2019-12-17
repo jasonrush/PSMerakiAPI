@@ -14,7 +14,7 @@ Describe 'Get-Network Tests' {
             Get-PSMAPINetwork -NetworkID L_646829496481099586 | Should -HaveCount 1
         }
         It 'Returns a single result when OrganizationID and Name are specified' {
-            Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Always On Read Only' | Should -HaveCount 1
+            Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Sandbox Always on READ ONLY' | Should -HaveCount 1
         }
         It 'Throws an exception when a blank NetworkID is specified' {
             { Get-PSMAPINetwork -NetworkID '' } | Should -Throw
@@ -31,7 +31,7 @@ Describe 'Get-Network Tests' {
     }
 
     Context "Network object has the correct properties" {
-        $netObject = Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Always On Read Only'
+        $netObject = Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Sandbox Always on READ ONLY'
 
         # Load an array with the properties we need to look for
         $properties = ('id', 'organizationId', 'name', 'timeZone', 'tags', 'type', 'productTypes', 'disableMyMerakiCom')
