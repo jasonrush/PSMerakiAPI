@@ -15,20 +15,20 @@ Describe 'Get-Admin Tests' {
         }
     }
 
-    Context "Organization object has the correct properties" {
-        $orgObject = Get-PSMAPIOrganization -Name 'DevNet Sandbox'
+    Context "Admin object has the correct properties" {
+        $admObject = (Get-PSMAPIAdmin -OrganizationID 537758 | Select-Object -First 1)
 
         # Load an array with the properties we need to look for
-        $properties = ('id', 'name', 'url')
+        $properties = ('name', 'email', 'id', 'networks', 'tags', 'twoFactorAuthEnabled', 'lastActive', 'accountStatus', 'hasApiKey', 'orgAccess')
 
         foreach ($property in $properties) {
             It "Organization objects should have a property of $property" {
-                [bool]($orgObject.PSObject.Properties.Name -match $property) | Should -BeTrue
+                [bool]($admObject.PSObject.Properties.Name -match $property) | Should -BeTrue
             }
         }
 
         It "Organization objects should not have a gibberish property" {
-            [bool]($orgObject.PSObject.Properties.Name -match 'qwertyqwertyqwerty') | Should -not -BeTrue
+            [bool]($admObject.PSObject.Properties.Name -match 'qwertyqwertyqwerty') | Should -not -BeTrue
         }
     } # Context correct properties
 
