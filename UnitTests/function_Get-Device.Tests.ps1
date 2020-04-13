@@ -8,10 +8,10 @@ Describe 'Get-Device Tests' {
             { Get-PSMAPIDevice } | Should -Throw
         }
         It 'Returns one or more results when OrganizationID is specified' {
-            (Get-PSMAPIDevice -OrganizationID 549236).count | Should -BeGreaterThan 0
+            (Get-PSMAPIDevice -OrganizationID 537758).count | Should -BeGreaterThan 0
         }
         It 'Returns one or more results when NetworkID is specified' {
-            (Get-PSMAPIDevice -NetworkID L_646829496481104156).count | Should -BeGreaterThan 0
+            (Get-PSMAPIDevice -NetworkID L_646829496481091801).count | Should -BeGreaterThan 0
         }
         It 'Throws an exception when a blank NetworkID is specified' {
             { Get-PSMAPIDevice -NetworkID '' } | Should -Throw
@@ -28,7 +28,7 @@ Describe 'Get-Device Tests' {
     }
 
     Context "Device object has the correct properties" {
-        $devObject = (Get-PSMAPIDevice -NetworkID L_646829496481104156 | Select-Object -First 1)
+        $devObject = (Get-PSMAPIDevice -NetworkID L_646829496481091801 | Select-Object -First 1)
 
         # Load an array with the properties we need to look for
         $properties = ('lat', 'lng', 'address', 'serial', 'mac', 'lanIp', 'networkId', 'model', 'firmware', 'floorPlanId')
