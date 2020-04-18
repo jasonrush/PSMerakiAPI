@@ -28,7 +28,7 @@ Describe 'Module' {
         }
     } # Context 'Module Setup'
 
-    $functions = Get-ChildItem "Public\*.ps1" | Select-Object -ExpandProperty BaseName
+    $functions = Get-ChildItem "$root\Public\*.ps1" | Select-Object -ExpandProperty BaseName
 
     foreach ($function in $functions) {
 
