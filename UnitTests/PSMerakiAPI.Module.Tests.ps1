@@ -78,9 +78,12 @@ Describe 'Module' {
 
         } # Context "Test Function $function"
 
-        Context "$function has tests" {
-            It "function_$function.Tests.ps1 should exist" {
+        Context "$function has supporting files" {
+            It "UnitTests\function_$function.Tests.ps1 should exist" {
                 "$root\..\UnitTests\function_$function.Tests.ps1" | Should -Exist
+            }
+            It "Docs\$function.md should exist" {
+                "$root\..\Docs\$function.md" | Should -Exist
             }
         }
 
