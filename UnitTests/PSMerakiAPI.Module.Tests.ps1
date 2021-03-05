@@ -1,7 +1,7 @@
-Import-Module "$(Split-Path -parent $MyInvocation.MyCommand.Path)/../PSMerakiAPI/PSMerakiAPI.psm1" -Prefix "PSMAPI"
+Import-Module "$(Split-Path -Parent $MyInvocation.MyCommand.Path)/../PSMerakiAPI/PSMerakiAPI.psm1" -Prefix "PSMAPI"
 $ModuleName = "PSMerakiAPI"
 
-$root = "$(Split-Path -parent $MyInvocation.MyCommand.Path)/../$ModuleName"
+$root = "$(Split-Path -Parent $MyInvocation.MyCommand.Path)/../$ModuleName"
 Describe 'Module' {
     Context 'Module Setup' {
         It "Has the root module $ModuleName.psm1" {

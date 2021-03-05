@@ -1,4 +1,4 @@
-Import-Module "$(Split-Path -parent $MyInvocation.MyCommand.Path)/../PSMerakiAPI/PSMerakiAPI.psm1" -Prefix "PSMAPI"
+Import-Module "$(Split-Path -Parent $MyInvocation.MyCommand.Path)/../PSMerakiAPI/PSMerakiAPI.psm1" -Prefix "PSMAPI"
 
 $env:MerakiAPIKey = '093b24e85df15a3e66f1fc359f4c48493eaa1b73' # Demo Read-only API key
 
@@ -43,7 +43,7 @@ Describe 'Get-Network Tests' {
         }
 
         It "Network object should not have a gibberish property" {
-            [bool]($netObject.PSObject.Properties.Name -match 'qwertyqwertyqwerty') | Should -not -BeTrue
+            [bool]($netObject.PSObject.Properties.Name -match 'qwertyqwertyqwerty') | Should -Not -BeTrue
         }
     } # Context correct properties
 }
