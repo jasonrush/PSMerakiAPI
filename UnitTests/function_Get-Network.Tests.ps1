@@ -14,7 +14,7 @@ Describe 'Get-Network Tests' {
             Get-PSMAPINetwork -NetworkID L_646829496481099586 | Should -HaveCount 1
         }
         It 'Returns a single result when OrganizationID and Name are specified' {
-            Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Sandbox Always on READ ONLY' | Should -HaveCount 1
+            Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Sandbox ALWAYS ON' | Should -HaveCount 1
         }
         It 'Throws an exception when a blank NetworkID is specified' {
             { Get-PSMAPINetwork -NetworkID '' } | Should -Throw

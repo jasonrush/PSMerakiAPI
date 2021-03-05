@@ -31,12 +31,17 @@ function Invoke-APIRestMethod {
     .PARAMETER Method
         'GET', 'POST', 'PUT', or 'DELETE'. Defaults to 'GET'.
     .PARAMETER Endpoint
-        The API endpoint to access (after the API base URL, ie. after 'https://api.meraki.com/api/v0/').
+        The API endpoint to access (after the API base URL, ie. after 'https://api.meraki.com/api/v1/').
     .PARAMETER Body
         HTTP request body, if required.
     .OUTPUTS
         PowerShell objects based on the JSON data returned by the API call.
     .NOTES
+        Version:        1.1
+        Author:         Jason Rush
+        Creation Date:  2021-03-05
+        Purpose/Change: Upgraded to Meraki v1 API
+
         Version:        1.0
         Author:         Jason Rush
         Creation Date:  2019-11-19
@@ -87,7 +92,7 @@ function Invoke-APIRestMethod {
     # If there was no base URI in the Environment variable, try figuring out automagically.
     if ( ('' -eq $BaseURI) ) {
         Write-Verbose "Importing Base URI from Meraki API call (via Invoke-WebRequest)."
-        $organizationsURI = 'https://api.meraki.com/api/v0/organizations'
+        $organizationsURI = 'https://api.meraki.com/api/v1/organizations'
         try {
             $webRequest = Invoke-WebRequest -Uri $organizationsURI -Headers @{ "X-Cisco-Meraki-API-Key" = $ApiKey }
             $BaseURI = ($webRequest.BaseResponse.ResponseUri.AbsoluteUri).Replace( '/organizations', '' )
@@ -102,7 +107,7 @@ function Invoke-APIRestMethod {
 
     # If we still haven't figured out a better base URI, use the default.
     if ( ('' -eq $BaseURI) ) {
-        $BaseURI = 'https://api.meraki.com/api/v0'
+        $BaseURI = 'https://api.meraki.com/api/v1'
     }
 
     # Create headers array to specify Meraki API key

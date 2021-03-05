@@ -2,6 +2,11 @@ Import-Module "$(Split-Path -Parent $MyInvocation.MyCommand.Path)/../PSMerakiAPI
 $ModuleName = "PSMerakiAPI"
 
 $root = "$(Split-Path -Parent $MyInvocation.MyCommand.Path)/../$ModuleName"
+
+$PSDefaultParameterValues = @{
+    "It:TestCases" = @{ root = $root; ModuleName = $ModuleName}
+}
+
 Describe 'Module' {
     Context 'Module Setup' {
         It "Has the root module $ModuleName.psm1" {
@@ -31,6 +36,9 @@ Describe 'Module' {
     $functions = Get-ChildItem "$root\Public\*.ps1" | Select-Object -ExpandProperty BaseName
 
     foreach ($function in $functions) {
+        $PSDefaultParameterValues = @{
+            "It:TestCases" = @{ root = $root; ModuleName = $ModuleName; function = $function}
+        }
 
         Context "Test Function $function" {
 
