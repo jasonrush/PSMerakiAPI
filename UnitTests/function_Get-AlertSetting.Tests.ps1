@@ -5,8 +5,7 @@ $env:MerakiAPIKey = '093b24e85df15a3e66f1fc359f4c48493eaa1b73' # Demo Read-only 
 Describe 'Get-AlertSetting Tests' {
     Context 'Verify proper result counts' {
         It 'Returns one or more results when NetworkID is specified' {
-            # TODO: Find a test network that this functions on.
-            #(Get-PSMAPIAlertSetting -NetworkID L_646829496481104079 | Measure-Object).count | Should -BeGreaterThan 0
+            (Get-PSMAPIAlertSetting -NetworkID L_646829496481105433 | Measure-Object).count | Should -BeGreaterThan 0
         }
         It 'Throws an exception when a blank NetworkID is specified' {
             { Get-PSMAPIAlertSetting -NetworkID '' } | Should -Throw

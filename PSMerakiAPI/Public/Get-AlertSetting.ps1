@@ -28,7 +28,7 @@ function Get-AlertSetting {
     )
 
     Write-Verbose "Filtering by Network ID: $ID"
-    $Endpoint = "networks/$NetworkID/alertSettings"
+    $Endpoint = "networks/$NetworkID/alerts/settings"
 
     try {
         $alertSettings = Invoke-APIRestMethod -Endpoint $Endpoint
