@@ -102,7 +102,6 @@ function Invoke-APIRestMethod {
         catch {
             Write-Verbose "Attempting to track down shard-based base URI via redirect failed."
         }
-        Write-Verbose "WAT"
     }
 
     # If we still haven't figured out a better base URI, use the default.
@@ -129,20 +128,23 @@ function Invoke-APIRestMethod {
         Write-Verbose "`t`t$($key): $($headers[$key])"
     }
 
-    <#
-    Write-Verbose "Body:"
-    foreach( $key in $headers.Keys ){
-        Write-Verbose "`t`t$($key): $($headers[$key])"
+    if( ($null -ne $Body) -And -Not ($Body -is [string]) ){
+        Write-Verbose "Converting body to JSON string..."
+        $Body = $Body | ConvertTo-JSON -Depth 10
     }
-    #>
 
     # Meraki does not accept API connections using older versions of TLS.
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
     try {
-        $response = Invoke-RestMethod $FullURI -Method $Method -Headers $Headers -Body $Body -ErrorAction Stop
+        $response = Invoke-RestMethod $FullURI -Method $Method -Headers $Headers -Body $Body -ErrorAction Stop -ContentType 'application/json'
     }
     catch {
+        $respStream = $_.Exception.Response.GetResponseStream()
+        $reader = New-Object System.IO.StreamReader($respStream)
+        $respBody = $reader.ReadToEnd() | ConvertFrom-Json
+        Write-Warning ($respBody | ConvertTo-JSON | out-string)
+
         switch ( $_.Exception.Message ) {
             'The remote server returned an error: (404) Not Found.' {
                 Write-Verbose "A 404-not-found error was returned."
