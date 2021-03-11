@@ -8,7 +8,7 @@ Describe 'Get-Organization Tests' {
             (Get-PSMAPIOrganization).count | Should -BeGreaterThan 0
         }
         It 'Returns a single result when ID is specified' {
-            Get-PSMAPIOrganization -ID 537758 | Should -HaveCount 1
+            Get-PSMAPIOrganization -ID 549236 | Should -HaveCount 1
         }
         It 'Returns a single result when Name is specified' {
             Get-PSMAPIOrganization -Name 'DevNet Sandbox' | Should -HaveCount 1

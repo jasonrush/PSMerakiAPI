@@ -5,7 +5,7 @@ $env:MerakiAPIKey = '093b24e85df15a3e66f1fc359f4c48493eaa1b73' # Demo Read-only 
 Describe 'Get-AlertSetting Tests' {
     Context 'Verify proper result counts' {
         It 'Returns one or more results when NetworkID is specified' {
-            (Get-PSMAPIAlertSetting -NetworkID L_646829496481105433 | Measure-Object).count | Should -BeGreaterThan 0
+            (Get-PSMAPIAlertSetting -NetworkID L_646829496481098888 | Measure-Object).count | Should -BeGreaterThan 0
         }
         It 'Throws an exception when a blank NetworkID is specified' {
             { Get-PSMAPIAlertSetting -NetworkID '' } | Should -Throw
@@ -16,7 +16,7 @@ Describe 'Get-AlertSetting Tests' {
     }
 
     Context "Alert configuration object has the correct properties" {
-        $alertSettingObject = (Get-PSMAPIAlertSetting -NetworkID L_646829496481104079 | Select-Object -First 1)
+        $alertSettingObject = (Get-PSMAPIAlertSetting -NetworkID L_646829496481098888 | Select-Object -First 1)
 
         # Load an array with the properties we need to look for
         $properties = ('defaultDestinations', 'alerts')

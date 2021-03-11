@@ -8,13 +8,13 @@ Describe 'Get-Network Tests' {
             { Get-PSMAPINetwork } | Should -Throw
         }
         It 'Returns one or more results when OrganizationID is specified' {
-            (Get-PSMAPINetwork -OrganizationID 549236).count | Should -BeGreaterThan 0
+            (Get-PSMAPINetwork -OrganizationID 537758).count | Should -BeGreaterThan 0
         }
         It 'Returns a single result when NetworkID is specified' {
-            Get-PSMAPINetwork -NetworkID L_646829496481099586 | Should -HaveCount 1
+            Get-PSMAPINetwork -NetworkID L_646829496481098888 | Should -HaveCount 1
         }
         It 'Returns a single result when OrganizationID and Name are specified' {
-            Get-PSMAPINetwork -OrganizationID 549236 -Name 'DevNet Sandbox ALWAYS ON' | Should -HaveCount 1
+            Get-PSMAPINetwork -OrganizationID 537758 -Name 'Datacenter-NA' | Should -HaveCount 1
         }
         It 'Throws an exception when a blank NetworkID is specified' {
             { Get-PSMAPINetwork -NetworkID '' } | Should -Throw

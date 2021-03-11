@@ -130,7 +130,7 @@ function Invoke-APIRestMethod {
 
     if( ($null -ne $Body) -And -Not ($Body -is [string]) ){
         Write-Verbose "Converting body to JSON string..."
-        $Body = $Body | ConvertTo-JSON -Depth 10
+        $Body = $Body | ConvertTo-Json -Depth 10
     }
 
     # Meraki does not accept API connections using older versions of TLS.
@@ -143,7 +143,7 @@ function Invoke-APIRestMethod {
         $respStream = $_.Exception.Response.GetResponseStream()
         $reader = New-Object System.IO.StreamReader($respStream)
         $respBody = $reader.ReadToEnd() | ConvertFrom-Json
-        Write-Warning ($respBody | ConvertTo-JSON | out-string)
+        Write-Warning ($respBody | ConvertTo-Json | Out-String)
 
         switch ( $_.Exception.Message ) {
             'The remote server returned an error: (404) Not Found.' {
